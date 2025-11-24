@@ -3,7 +3,7 @@ package settings_module.dto.requestDto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 
 @Data
@@ -24,4 +24,3 @@ public class DepartmentSectionRequestDto {
     @NotNull
     private Integer status;
 }
-
