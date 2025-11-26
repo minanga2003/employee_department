@@ -13,9 +13,9 @@ import settings_module.repository.DepartmentSectionRepository;
 import settings_module.repository.EmployeeRepository;
 import settings_module.service.EmployeeService;
 import settings_module.util.CommonMessages;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,13 +24,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository repo;
     private final DepartmentSectionRepository departmentSectionRepository;
+    private static final Pattern EMAIL_PATTERN =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$", Pattern.CASE_INSENSITIVE);
 
-    /** -------------------- CREATE -------------------- **/
     @Override
     public EmployeeResponseDto create(EmployeeRequestDto dto) {
         try {
             validateDepartmentSection(dto.getDeptNo(), dto.getSectionNo());
             validateEmployeeNumber(dto.getEmpNo());
+            validateEmailFormat(dto.getEmail());
             validateUniqueEmail(dto.getEmail(), null);
             validateActiveFlagOnCreate(dto.getActive());
 
@@ -75,7 +77,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    /** -------------------- UPDATE -------------------- **/
     @Override
     public EmployeeResponseDto update(Long empNo, EmployeeRequestDto dto) {
         try {
@@ -95,6 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
 
             validateDepartmentSection(dto.getDeptNo(), dto.getSectionNo());
+            validateEmailFormat(dto.getEmail());
             validateUniqueEmail(dto.getEmail(), empNo);
 
             double totalSalary = dto.getBasicSalary()
@@ -134,7 +136,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-    /** -------------------- GET ONE -------------------- **/
     @Override
     public EmployeeResponseDto getOne(Long empNo) {
         try {
@@ -156,8 +157,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             );
         }
     }
-
-    /** -------------------- DELETE -------------------- **/
     @Override
     public boolean delete(Long empNo) {
         try {
@@ -181,8 +180,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             );
         }
     }
-
-    /** -------------------- GET ALL -------------------- **/
     @Override
     public List<EmployeeResponseDto> getAll() {
         try {
@@ -201,8 +198,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             );
         }
     }
-
-    /** -------------------- HELPER MAPPING -------------------- **/
     private EmployeeResponseDto toDto(Employee entity) {
         return EmployeeResponseDto.builder()
                 .empNo(entity.getEmpNo())
@@ -242,7 +237,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private void validateUniqueEmail(String email, Long excludedEmpNo) {
         if (!StringUtils.hasText(email)) {
-            return;
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    CommonMessages.EMAIL_INVALID
+            );
         }
 
         boolean emailExists = (excludedEmpNo == null)
@@ -253,6 +251,15 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
                     CommonMessages.EMAIL_ALREADY_EXISTS
+            );
+        }
+    }
+
+    private void validateEmailFormat(String email) {
+        if (!StringUtils.hasText(email) || !EMAIL_PATTERN.matcher(email).matches()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    CommonMessages.EMAIL_INVALID
             );
         }
     }

@@ -1,6 +1,5 @@
 package settings_module.dto.requestDto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -30,7 +29,6 @@ public class EmployeeRequestDto {
     @NotNull(message = "Section number is required")
     private Long sectionNo;
 
-    @Email(message = "Email must be valid")
     private String email;
 
     private double basicSalary = 0.0;

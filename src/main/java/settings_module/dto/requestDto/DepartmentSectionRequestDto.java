@@ -3,7 +3,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import jakarta.validation.constraints.NotNull;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

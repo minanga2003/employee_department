@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 public class DepartmentSectionServiceImpl implements DepartmentSectionService {
 
     private final DepartmentSectionRepository repo;
-
-    /** -------------------- CREATE -------------------- **/
     @Override
     public DepartmentSectionResponseDto create(DepartmentSectionRequestDto dto) {
         try {
@@ -41,8 +39,6 @@ public class DepartmentSectionServiceImpl implements DepartmentSectionService {
                     ex);
         }
     }
-
-    /** -------------------- UPDATE -------------------- **/
     @Override
     public DepartmentSectionResponseDto update(Long seq, DepartmentSectionRequestDto dto) {
         try {
@@ -67,8 +63,6 @@ public class DepartmentSectionServiceImpl implements DepartmentSectionService {
                     ex);
         }
     }
-
-    /** -------------------- GET ONE -------------------- **/
     @Override
     public DepartmentSectionResponseDto getOne(Long seq) {
         try {
@@ -87,8 +81,6 @@ public class DepartmentSectionServiceImpl implements DepartmentSectionService {
                     ex);
         }
     }
-
-    /** -------------------- DELETE -------------------- **/
     @Override
     public boolean delete(Long seq) {
         try {
@@ -109,7 +101,6 @@ public class DepartmentSectionServiceImpl implements DepartmentSectionService {
         }
     }
 
-    /** -------------------- GET ALL -------------------- **/
     @Override
     public List<DepartmentSectionResponseDto> getAll() {
         try {
@@ -127,7 +118,6 @@ public class DepartmentSectionServiceImpl implements DepartmentSectionService {
         }
     }
     
-    /** -------------------- MAPPING HELPER -------------------- **/
     private DepartmentSectionResponseDto toDto(DepartmentSection entity) {
         return DepartmentSectionResponseDto.builder()
                 .seq(entity.getSeq())

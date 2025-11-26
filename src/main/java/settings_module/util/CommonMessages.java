@@ -29,6 +29,7 @@ public final class CommonMessages {
     public static final String EMPLOYEE_NUMBER_ALREADY_EXISTS = "Employee number already exists";
     public static final String EMPLOYEE_NUMBER_MISMATCH = "Employee number does not match request path";
     public static final String EMPLOYEE_MUST_BE_ACTIVE_ON_CREATE = "New employees must be active on creation";
+    public static final String EMAIL_INVALID = "Email must be valid";
 
     public static final String SELECT_CHECKBOX = "Users should mark at least one check box";
     public static final String RECORD_SAVED_FAILED = "Failed to save record";
