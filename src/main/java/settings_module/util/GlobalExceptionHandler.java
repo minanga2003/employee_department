@@ -1,4 +1,4 @@
-package settings_module.controllers;
+package settings_module.util;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 import settings_module.dto.responseDto.PayloadResponse;
-import settings_module.util.CommonMessages;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
