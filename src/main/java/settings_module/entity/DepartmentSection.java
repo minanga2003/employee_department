@@ -1,5 +1,4 @@
 package settings_module.entity;
-
 import jakarta.persistence.*;
 import lombok.*;
 

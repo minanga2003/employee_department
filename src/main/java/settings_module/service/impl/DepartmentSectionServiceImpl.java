@@ -10,7 +10,6 @@ import settings_module.entity.DepartmentSection;
 import settings_module.repository.DepartmentSectionRepository;
 import settings_module.service.DepartmentSectionService;
 import settings_module.util.CommonMessages;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -127,7 +126,7 @@ public class DepartmentSectionServiceImpl implements DepartmentSectionService {
                     ex);
         }
     }
-
+    
     /** -------------------- MAPPING HELPER -------------------- **/
     private DepartmentSectionResponseDto toDto(DepartmentSection entity) {
         return DepartmentSectionResponseDto.builder()
@@ -139,4 +138,3 @@ public class DepartmentSectionServiceImpl implements DepartmentSectionService {
                 .build();
     }
 }
-

@@ -6,4 +6,6 @@ import settings_module.entity.DepartmentSection;
 
 @Repository
 public interface DepartmentSectionRepository extends JpaRepository<DepartmentSection, Long> {
+
+    boolean existsByDeptNoAndSectionNo(Integer deptNo, Integer sectionNo);
 }

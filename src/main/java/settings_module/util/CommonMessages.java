@@ -1,7 +1,5 @@
 package settings_module.util;
-/**
- * Centralized collection of human-readable messages reused across modules.
- */
+
 public final class CommonMessages {
 
     private CommonMessages() {
@@ -32,6 +30,7 @@ public final class CommonMessages {
     public static final String RECORD_DELETED_FAILED = "Failed to delete record";
     public static final String RECORD_UPDATED_FAILED = "Failed to update record";
     public static final String EMAIL_SENT_SUCCESS = "Email sent successfully";
+    public static final String INVALID_DEPARTMENT_SECTION = "Invalid department or section selection";
 
     public static final String RECORD_REMOVED_SUCCESS = "Record removed successfully";
     public static final String CONCURRENT_ERROR = "The record is currently being edited by another user. Please try again later.";
