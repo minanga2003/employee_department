@@ -1,7 +1,13 @@
 package settings_module.dto.requestDto;
 
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
 @Data
@@ -9,6 +15,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class EmployeeRequestDto {
+
+    @NotNull(message = "Employee number is required")
+    private Long empNo;
 
     @NotBlank(message = "Name is required")
     private String name;

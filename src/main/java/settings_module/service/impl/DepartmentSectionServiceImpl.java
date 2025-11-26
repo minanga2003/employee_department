@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import settings_module.dto.requestDto.DepartmentSectionRequestDto;
-import settings_module.dto.response.dto.DepartmentSectionResponseDto;
+import settings_module.dto.responseDto.DepartmentSectionResponseDto;
 import settings_module.entity.DepartmentSection;
 import settings_module.repository.DepartmentSectionRepository;
 import settings_module.service.DepartmentSectionService;

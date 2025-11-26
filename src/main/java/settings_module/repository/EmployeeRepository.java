@@ -6,5 +6,8 @@ import settings_module.entity.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-}
 
+    boolean existsByEmail(String email);
+
+    boolean existsByEmailAndEmpNoNot(String email, Long empNo);
+}

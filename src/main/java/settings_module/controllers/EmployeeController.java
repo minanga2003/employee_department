@@ -1,16 +1,14 @@
 package settings_module.controllers;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import settings_module.dto.requestDto.EmployeeRequestDto;
-import settings_module.dto.response.dto.EmployeeResponseDto;
-import settings_module.dto.response.dto.PayloadResponse;
+import settings_module.dto.responseDto.EmployeeResponseDto;
+import settings_module.dto.responseDto.PayloadResponse;
 import settings_module.service.EmployeeService;
 import settings_module.util.CommonMessages;
-
 import java.util.List;
 
 @RestController

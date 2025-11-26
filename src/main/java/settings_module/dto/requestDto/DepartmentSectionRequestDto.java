@@ -1,6 +1,4 @@
 package settings_module.dto.requestDto;
-
-
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import jakarta.validation.constraints.NotNull;

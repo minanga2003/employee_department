@@ -1,16 +1,19 @@
 package settings_module.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 import settings_module.dto.requestDto.EmployeeRequestDto;
-import settings_module.dto.response.dto.EmployeeResponseDto;
+import settings_module.dto.responseDto.EmployeeResponseDto;
 import settings_module.entity.Employee;
 import settings_module.repository.DepartmentSectionRepository;
 import settings_module.repository.EmployeeRepository;
 import settings_module.service.EmployeeService;
 import settings_module.util.CommonMessages;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,12 +30,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeResponseDto create(EmployeeRequestDto dto) {
         try {
             validateDepartmentSection(dto.getDeptNo(), dto.getSectionNo());
+            validateEmployeeNumber(dto.getEmpNo());
+            validateUniqueEmail(dto.getEmail(), null);
+            validateActiveFlagOnCreate(dto.getActive());
 
             double totalSalary = dto.getBasicSalary()
                     + dto.getTravelAllowance()
                     + dto.getOtherAllowance();
 
             Employee entity = Employee.builder()
+                    .empNo(dto.getEmpNo())
                     .name(dto.getName())
                     .dob(dto.getDob())
                     .deptNo(dto.getDeptNo())
@@ -42,7 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     .travelAllowance(dto.getTravelAllowance())
                     .otherAllowance(dto.getOtherAllowance())
                     .totalSalary(totalSalary)
-                    .active(dto.getActive())
+                    .active(1)
                     .deleted(0)
                     .createdDatetime(LocalDateTime.now())
                     .build();
@@ -53,6 +60,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         } catch (ResponseStatusException ex) {
             throw ex;
+        } catch (DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    CommonMessages.EMAIL_ALREADY_EXISTS,
+                    ex
+            );
         } catch (Exception ex) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
@@ -72,7 +85,17 @@ public class EmployeeServiceImpl implements EmployeeService {
                             CommonMessages.RECORD_NOT_FOUND + empNo
                     ));
 
+            if (dto.getEmpNo() == null) {
+                dto.setEmpNo(empNo);
+            } else if (!dto.getEmpNo().equals(empNo)) {
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST,
+                        CommonMessages.EMPLOYEE_NUMBER_MISMATCH
+                );
+            }
+
             validateDepartmentSection(dto.getDeptNo(), dto.getSectionNo());
+            validateUniqueEmail(dto.getEmail(), empNo);
 
             double totalSalary = dto.getBasicSalary()
                     + dto.getTravelAllowance()
@@ -96,6 +119,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         } catch (ResponseStatusException ex) {
             throw ex;
+        } catch (DataIntegrityViolationException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    CommonMessages.EMAIL_ALREADY_EXISTS,
+                    ex
+            );
         } catch (Exception ex) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
@@ -193,6 +222,48 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .modifiedUser(entity.getModifiedUser())
                 .modifiedDatetime(entity.getModifiedDatetime())
                 .build();
+    }
+
+    private void validateEmployeeNumber(Long empNo) {
+        if (empNo == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    CommonMessages.EMPLOYEE_NUMBER_REQUIRED
+            );
+        }
+
+        if (repo.existsById(empNo)) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    CommonMessages.EMPLOYEE_NUMBER_ALREADY_EXISTS
+            );
+        }
+    }
+
+    private void validateUniqueEmail(String email, Long excludedEmpNo) {
+        if (!StringUtils.hasText(email)) {
+            return;
+        }
+
+        boolean emailExists = (excludedEmpNo == null)
+                ? repo.existsByEmail(email)
+                : repo.existsByEmailAndEmpNoNot(email, excludedEmpNo);
+
+        if (emailExists) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    CommonMessages.EMAIL_ALREADY_EXISTS
+            );
+        }
+    }
+
+    private void validateActiveFlagOnCreate(Integer activeFlag) {
+        if (activeFlag != null && activeFlag == 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    CommonMessages.EMPLOYEE_MUST_BE_ACTIVE_ON_CREATE
+            );
+        }
     }
 
     private void validateDepartmentSection(Long deptNo, Long sectionNo) {

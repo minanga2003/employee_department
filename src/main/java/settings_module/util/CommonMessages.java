@@ -24,6 +24,11 @@ public final class CommonMessages {
     public static final String DEFAULT_FOUND = "Assign a new default record before modifying the existing default record";
     public static final String RECORD_USAGE_FOUND = "Usage record retrieved successfully";
     public static final String RECORD_CANNOT_DELETE = "Record cannot be deleted";
+    public static final String EMAIL_ALREADY_EXISTS = "Email already exists";
+    public static final String EMPLOYEE_NUMBER_REQUIRED = "Employee number is required";
+    public static final String EMPLOYEE_NUMBER_ALREADY_EXISTS = "Employee number already exists";
+    public static final String EMPLOYEE_NUMBER_MISMATCH = "Employee number does not match request path";
+    public static final String EMPLOYEE_MUST_BE_ACTIVE_ON_CREATE = "New employees must be active on creation";
 
     public static final String SELECT_CHECKBOX = "Users should mark at least one check box";
     public static final String RECORD_SAVED_FAILED = "Failed to save record";

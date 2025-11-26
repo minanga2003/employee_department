@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import settings_module.dto.response.dto.DepartmentSectionResponseDto;
-import settings_module.dto.response.dto.PayloadResponse;
+import settings_module.dto.responseDto.DepartmentSectionResponseDto;
+import settings_module.dto.responseDto.PayloadResponse;
 import settings_module.service.DepartmentSectionService;
 import settings_module.util.CommonMessages;
-
 import java.util.List;
 import java.util.stream.Collectors;
 

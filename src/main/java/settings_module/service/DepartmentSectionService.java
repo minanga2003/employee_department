@@ -1,7 +1,7 @@
 package settings_module.service;
 
 import settings_module.dto.requestDto.DepartmentSectionRequestDto;
-import settings_module.dto.response.dto.DepartmentSectionResponseDto;
+import settings_module.dto.responseDto.DepartmentSectionResponseDto;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package settings_module.dto.response.dto;
+package settings_module.dto.responseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
