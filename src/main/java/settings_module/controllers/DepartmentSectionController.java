@@ -13,6 +13,7 @@ import settings_module.dto.responseDto.DepartmentSectionResponseDto;
 import settings_module.dto.responseDto.PayloadResponse;
 import settings_module.service.DepartmentSectionService;
 import settings_module.util.CommonMessages;
+import settings_module.util.ResponseBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,11 +42,11 @@ public class DepartmentSectionController {
                     .toList();
 
             if (departments.isEmpty()) {
-                return respond(HttpStatus.NOT_FOUND, CommonMessages.RECORD_LIST_NOT_FOUND,
+                return ResponseBuilder.build(HttpStatus.NOT_FOUND, CommonMessages.RECORD_LIST_NOT_FOUND,
                         PayloadResponse.MessageStatus.FAILURE, departments);
             }
 
-            return respond(HttpStatus.OK, CommonMessages.RECORDS_RETRIEVED_SUCCESSFULLY,
+            return ResponseBuilder.build(HttpStatus.OK, CommonMessages.RECORDS_RETRIEVED_SUCCESSFULLY,
                     PayloadResponse.MessageStatus.SUCCESS, departments);
         } catch (Exception ex) {
             return handleException(ex);
@@ -62,11 +63,11 @@ public class DepartmentSectionController {
                     .collect(Collectors.toList());
 
             if (sections.isEmpty()) {
-                return respond(HttpStatus.NOT_FOUND, CommonMessages.RECORD_LIST_NOT_FOUND,
+                return ResponseBuilder.build(HttpStatus.NOT_FOUND, CommonMessages.RECORD_LIST_NOT_FOUND,
                         PayloadResponse.MessageStatus.FAILURE, sections);
             }
 
-            return respond(HttpStatus.OK, CommonMessages.RECORDS_RETRIEVED_SUCCESSFULLY,
+            return ResponseBuilder.build(HttpStatus.OK, CommonMessages.RECORDS_RETRIEVED_SUCCESSFULLY,
                     PayloadResponse.MessageStatus.SUCCESS, sections);
         } catch (Exception ex) {
             return handleException(ex);
@@ -81,9 +82,9 @@ public class DepartmentSectionController {
                     .stream()
                     .filter(ds -> ds.getDeptNo().equals(deptNo) && ds.getSectionNo().equals(sectionNo))
                     .findFirst()
-                    .map(section -> respond(HttpStatus.OK, CommonMessages.RECORD_FOUND,
+                    .map(section -> ResponseBuilder.build(HttpStatus.OK, CommonMessages.RECORD_FOUND,
                             PayloadResponse.MessageStatus.SUCCESS, section))
-                    .orElseGet(() -> respond(HttpStatus.NOT_FOUND,
+                    .orElseGet(() -> ResponseBuilder.build(HttpStatus.NOT_FOUND,
                             CommonMessages.RECORD_NOT_FOUND + deptNo + "-" + sectionNo,
                             PayloadResponse.MessageStatus.FAILURE,
                             null));
@@ -92,28 +93,15 @@ public class DepartmentSectionController {
         }
     }
 
-    private <T> ResponseEntity<PayloadResponse<T>> respond(HttpStatus status,
-                                                           String message,
-                                                           PayloadResponse.MessageStatus messageStatus,
-                                                           T data) {
-        return ResponseEntity.status(status)
-                .body(PayloadResponse.<T>builder()
-                        .status_code(status.value())
-                        .message(message)
-                        .message_status(messageStatus)
-                        .data(data)
-                        .build());
-    }
-
     private <T> ResponseEntity<PayloadResponse<T>> handleException(Exception ex) {
         if (ex instanceof ResponseStatusException responseStatusException) {
             HttpStatus status = resolveStatus(responseStatusException.getStatusCode());
             String reason = responseStatusException.getReason() != null
                     ? responseStatusException.getReason()
                     : CommonMessages.INTERNAL_SERVER_ERROR;
-            return respond(status, reason, PayloadResponse.MessageStatus.FAILURE, null);
+            return ResponseBuilder.build(status, reason, PayloadResponse.MessageStatus.FAILURE, null);
         }
-        return respond(HttpStatus.INTERNAL_SERVER_ERROR, CommonMessages.INTERNAL_SERVER_ERROR,
+        return ResponseBuilder.build(HttpStatus.INTERNAL_SERVER_ERROR, CommonMessages.INTERNAL_SERVER_ERROR,
                 PayloadResponse.MessageStatus.FAILURE, null);
     }
 

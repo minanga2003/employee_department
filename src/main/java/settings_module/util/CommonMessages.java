@@ -31,7 +31,7 @@ public final class CommonMessages {
     public static final String EMPLOYEE_MUST_BE_ACTIVE_ON_CREATE = "New employees must be active on creation";
     public static final String EMAIL_INVALID = "Email must be valid";
 
-    public static final String SELECT_CHECKBOX = "Users should mark at least one check box";
+    
     public static final String RECORD_SAVED_FAILED = "Failed to save record";
     public static final String RECORD_DELETED_FAILED = "Failed to delete record";
     public static final String RECORD_UPDATED_FAILED = "Failed to update record";
@@ -39,7 +39,6 @@ public final class CommonMessages {
     public static final String INVALID_DEPARTMENT_SECTION = "Invalid department or section selection";
 
     public static final String RECORD_REMOVED_SUCCESS = "Record removed successfully";
-    public static final String CONCURRENT_ERROR = "The record is currently being edited by another user. Please try again later.";
     public static final String DEFAULT_EMAIL_EMPTY = "Default email not defined.";
     public static final String DEFAULT_EMAIL_CONFIGURATION_NOT_FOUND = "No email address is associated with this user or the email is not configured.";
 }
