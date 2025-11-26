@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
+import static settings_module.util.CommonMessages.*;
 
 @Data
 @NoArgsConstructor
@@ -15,18 +15,18 @@ import java.time.LocalDate;
 @Builder
 public class EmployeeRequestDto {
 
-    @NotNull(message = "Employee number is required")
+    @NotNull(message = EMPLOYEE_NUMBER_REQUIRED)
     private Long empNo;
 
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = "Name" + REQUIRED_FIELD)
     private String name;
 
     private LocalDate dob;
 
-    @NotNull(message = "Department number is required")
+    @NotNull(message = "Department number" + REQUIRED_FIELD)
     private Long deptNo;
 
-    @NotNull(message = "Section number is required")
+    @NotNull(message = "Section number" + REQUIRED_FIELD)
     private Long sectionNo;
 
     private String email;
@@ -37,7 +37,7 @@ public class EmployeeRequestDto {
 
     private double otherAllowance = 0.0;
 
-    @NotNull
+    @NotNull(message = "Active flag" + REQUIRED_FIELD)
     private Integer active = 1;
 }
 
